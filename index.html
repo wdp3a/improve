@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="apple-touch-icon" sizes="180x180" href="/manifesto/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/manifesto/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/manifesto/favicon-16x16.png">
+  <link rel="manifest" href="/manifesto/site.webmanifest">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Models — Mark Manson | Book Summary</title>
+  <style>
+    /* ─── Variables ─── */
+    :root {
+      --bg: #f5f5f7;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-solid: #ffffff;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-mid: rgba(0, 0, 0, 0.12);
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #86868b;
+      --accent: #1d1d1f;
+      --accent-soft: rgba(29, 29, 31, 0.06);
+      --accent-blue: #0071e3;
+      --accent-blue-soft: rgba(0, 113, 227, 0.08);
+      --sidebar-w: 260px;
+      --content-max: 740px;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 2px 24px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 1px 8px rgba(0, 0, 0, 0.06);
+      --font-display: -apple-system, "SF Pro Display", "Helvetica Neue", sans-serif;
+      --font-text: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
+      --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── Reset ─── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-text);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      background: rgba(245, 245, 247, 0.82);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding: 0;
+      transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-header {
+      padding: 28px 20px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-book-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .sidebar-author {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+      font-weight: 400;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0 20px;
+      scrollbar-width: none;
+    }
+
+    .sidebar-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      padding: 14px 20px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 0;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      border-left: 2px solid transparent;
+      margin: 1px 0;
+    }
+
+    .nav-item:hover {
+      color: var(--text-primary);
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .nav-item.active {
+      color: var(--text-primary);
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.05);
+      border-left-color: var(--text-primary);
+    }
+
+    .nav-icon {
+      width: 18px;
+      text-align: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    /* ─── Hamburger ─── */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 200;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--surface);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 16px;
+      height: 1.5px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 90;
+      backdrop-filter: blur(2px);
+    }
+
+    .overlay.visible {
+      display: block;
+    }
+
+    /* ─── Main Layout ─── */
+    .main {
+      margin-left: var(--sidebar-w);
+      min-height: 100vh;
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      background: linear-gradient(160deg, #1d1d1f 0%, #2d2d30 60%, #1a1a1c 100%);
+      color: white;
+      padding: 80px 60px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 12px;
+      background: linear-gradient(145deg, #ffffff 40%, rgba(255, 255, 255, 0.6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.01em;
+      margin-bottom: 32px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hero-meta-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .hero-meta-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* ─── Content area ─── */
+    .content-wrapper {
+      padding: 60px;
+      max-width: calc(var(--content-max) + 120px);
+    }
+
+    /* ─── Section ─── */
+    .section {
+      margin-bottom: 72px;
+      scroll-margin-top: 32px;
+    }
+
+    .section-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .section-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 34px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      max-width: var(--content-max);
+    }
+
+    .section-body p {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .section-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-body strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 64px 0;
+    }
+
+    /* ─── Quote block ─── */
+    .quote-block {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 28px 28px 28px 32px;
+      margin: 28px 0;
+      border-left: 3px solid var(--text-primary);
+      box-shadow: var(--shadow-sm);
+      max-width: var(--content-max);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .quote-text {
+      font-size: 16px;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    .quote-source {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    /* ─── Callout cards ─── */
+    .callout {
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin: 22px 0;
+      max-width: var(--content-max);
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .callout-blue {
+      background: var(--accent-blue-soft);
+      border: 1px solid rgba(0, 113, 227, 0.14);
+    }
+
+    .callout-gray {
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+    }
+
+    .callout-dark {
+      background: var(--text-primary);
+      border: 1px solid var(--text-primary);
+    }
+
+    .callout-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .callout-content {
+      flex: 1;
+    }
+
+    .callout-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .callout-blue .callout-label {
+      color: var(--accent-blue);
+    }
+
+    .callout-gray .callout-label {
+      color: var(--text-tertiary);
+    }
+
+    .callout-dark .callout-label {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .callout-text {
+      font-size: 14.5px;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    .callout-blue .callout-text {
+      color: #1d4ed8;
+    }
+
+    .callout-gray .callout-text {
+      color: var(--text-secondary);
+    }
+
+    .callout-dark .callout-text {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ─── Card grid ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+      max-width: var(--content-max);
+      margin: 24px 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.1);
+      border-color: var(--border-mid);
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* ─── Takeaways list ─── */
+    .takeaway-list {
+      max-width: var(--content-max);
+      margin: 24px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .takeaway-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: var(--transition);
+    }
+
+    .takeaway-item:hover {
+      border-color: var(--border-mid);
+      transform: translateX(2px);
+    }
+
+    .takeaway-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--text-primary);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .takeaway-text {
+      font-size: 14.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      flex: 1;
+      padding-top: 2px;
+    }
+
+    .takeaway-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ─── Spectrum bar ─── */
+    .spectrum {
+      max-width: var(--content-max);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      margin: 24px 0;
+    }
+
+    .spectrum-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-size: 11px;
+    }
+
+    .spectrum-bar-wrap {
+      position: relative;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, #ef4444, #f59e0b, #22c55e);
+      margin-bottom: 12px;
+    }
+
+    .spectrum-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-weight: 600;
+    }
+
+    .spectrum-middle {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── Three columns ─── */
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      max-width: var(--content-max);
+      margin: 24px 0;
+    }
+
+    .three-col-card {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+
+    .three-col-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .three-col-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .three-col-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+    }
+
+    /* ─── Comparison ─── */
+    .comparison {
+      max-width: var(--content-max);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .comparison-card {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .comparison-card.bad {
+      border-top: 3px solid #ef4444;
+    }
+
+    .comparison-card.good {
+      border-top: 3px solid #22c55e;
+    }
+
+    .comparison-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .comparison-card.bad .comparison-label {
+      color: #ef4444;
+    }
+
+    .comparison-card.good .comparison-label {
+      color: #16a34a;
+    }
+
+    .comparison-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .comparison-items li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .comparison-card.bad .comparison-items li::before {
+      content: '✕';
+      position: absolute;
+      left: 0;
+      color: #ef4444;
+      font-size: 10px;
+      top: 2px;
+    }
+
+    .comparison-card.good .comparison-items li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #16a34a;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    /* ─── Chapter intro strip ─── */
+    .chapter-strip {
+      background: var(--text-primary);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 0 0 32px;
+      max-width: var(--content-max);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .chapter-strip-num {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.12);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 60px;
+    }
+
+    .chapter-strip-content {}
+
+    .chapter-strip-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 4px;
+    }
+
+    .chapter-strip-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+
+    .chapter-strip-desc {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 4px;
+    }
+
+    /* ─── Final conclusion banner ─── */
+    .conclusion-banner {
+      background: linear-gradient(135deg, #1d1d1f 0%, #2d2d30 100%);
+      border-radius: var(--radius);
+      padding: 40px;
+      max-width: var(--content-max);
+      color: white;
+      margin: 24px 0;
+    }
+
+    .conclusion-banner h3 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      color: white;
+    }
+
+    .conclusion-banner p {
+      font-size: 15px;
+      line-height: 1.72;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 14px;
+    }
+
+    .conclusion-banner p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .main {
+        margin-left: 0;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero {
+        padding: 72px 28px 48px;
+      }
+
+      .content-wrapper {
+        padding: 36px 24px;
+      }
+
+      .three-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .comparison {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .hero {
+        padding: 64px 20px 40px;
+      }
+
+      .content-wrapper {
+        padding: 28px 18px;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .three-col {
+        grid-template-columns: 1fr;
+      }
+
+      .chapter-strip {
+        padding: 18px 20px;
+        gap: 14px;
+      }
+
+      .chapter-strip-num {
+        font-size: 36px;
+        min-width: 44px;
+      }
+
+      .callout {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .quote-block {
+        padding: 20px 20px 20px 22px;
+      }
+
+      .conclusion-banner {
+        padding: 28px 22px;
+      }
+    }
+
+    /* ─── Animations ─── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .section {
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .section:nth-child(2) {
+      animation-delay: 0.04s;
+    }
+
+    .section:nth-child(3) {
+      animation-delay: 0.08s;
+    }
+
+    .section:nth-child(4) {
+      animation-delay: 0.12s;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Overlay for mobile -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <!-- Hamburger -->
+  <button class="hamburger" id="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- ─── Sidebar ─── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-book-tag">Book Summary</div>
+      <div class="sidebar-title">Models</div>
+      <div class="sidebar-author">Mark Manson</div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <div class="nav-section-label">Overview</div>
+      <a class="nav-item" href="#introduction" onclick="closeSidebarMobile()">
+        <span class="nav-icon">○</span> Introduction
+      </a>
+      <a class="nav-item" href="#core-philosophy" onclick="closeSidebarMobile()">
+        <span class="nav-icon">◎</span> Core Philosophy
+      </a>
+
+      <div class="nav-section-label">Part I — Reality</div>
+      <a class="nav-item" href="#non-neediness" onclick="closeSidebarMobile()">
+        <span class="nav-icon">①</span> Non-Neediness
+      </a>
+      <a class="nav-item" href="#vulnerability" onclick="closeSidebarMobile()">
+        <span class="nav-icon">②</span> Vulnerability
+      </a>
+      <a class="nav-item" href="#honesty" onclick="closeSidebarMobile()">
+        <span class="nav-icon">③</span> Honesty & Truth
+      </a>
+
+      <div class="nav-section-label">Part II — Strategy</div>
+      <a class="nav-item" href="#polarization" onclick="closeSidebarMobile()">
+        <span class="nav-icon">④</span> Polarization
+      </a>
+      <a class="nav-item" href="#rejection" onclick="closeSidebarMobile()">
+        <span class="nav-icon">⑤</span> Rejection
+      </a>
+      <a class="nav-item" href="#three-fundamentals" onclick="closeSidebarMobile()">
+        <span class="nav-icon">⑥</span> Three Fundamentals
+      </a>
+
+      <div class="nav-section-label">Part III–V</div>
+      <a class="nav-item" href="#lifestyle" onclick="closeSidebarMobile()">
+        <span class="nav-icon">⑦</span> Lifestyle & Presence
+      </a>
+      <a class="nav-item" href="#anxiety" onclick="closeSidebarMobile()">
+        <span class="nav-icon">⑧</span> Overcoming Anxiety
+      </a>
+      <a class="nav-item" href="#communication" onclick="closeSidebarMobile()">
+        <span class="nav-icon">⑨</span> Communication
+      </a>
+
+      <div class="nav-section-label">Conclusion</div>
+      <a class="nav-item" href="#takeaways" onclick="closeSidebarMobile()">
+        <span class="nav-icon">★</span> Key Takeaways
+      </a>
+      <a class="nav-item" href="#conclusion" onclick="closeSidebarMobile()">
+        <span class="nav-icon">◉</span> Final Conclusion
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ─── Main ─── -->
+  <main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-eyebrow">Complete Book Summary</div>
+      <h1 class="hero-title">Models</h1>
+      <p class="hero-subtitle">Attract Women Through Honesty</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Author</span>
+          <span class="hero-meta-value">Mark Manson</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">First Published</span>
+          <span class="hero-meta-value">2011 (Revised 2016)</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Genre</span>
+          <span class="hero-meta-value">Self-Development</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Core Thesis</span>
+          <span class="hero-meta-value">Honesty over performance</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrapper">
+
+      <!-- Introduction -->
+      <section class="section" id="introduction">
+        <div class="section-eyebrow">
+          <div class="section-icon">○</div>
+          <span class="section-tag">Overview</span>
+        </div>
+        <h2 class="section-title">Introduction</h2>
+        <div class="section-body">
+          <p>Mark Manson wrote <em>Models</em> in a cramped London hotel room in 2011, asking himself one question:
+            <em>What book do I wish I had read when I was struggling with dating?</em> The answer was not another script
+            of pickup lines or psychological tricks. It was a book about becoming a fundamentally different man — one
+            driven by honesty, not performance.</p>
+          <p>The book emerged from Manson's own journey: a painful breakup in 2005 that sent him into years of
+            desperate, validation-seeking behavior, followed by a deeper reckoning in which he realized that tactics and
+            tricks only masked the real problem. He had coached hundreds of men across dozens of countries and saw the
+            same pattern everywhere: men who couldn't attract women because they were, at their core, too invested in
+            how women perceived them. Too needy.</p>
+          <p>What makes <em>Models</em> different from virtually every other dating book is its foundational premise:
+            <strong>attraction is not something you perform, it is something you are</strong>. You don't trick a woman
+            into wanting you. You become someone genuinely worth wanting. The words you say barely matter. The man
+            behind them matters enormously.</p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"Your failures with women aren't caused because you say the wrong thing or look like
+            the wrong guy. Words and appearances are merely a symptom of a greater internal problem."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Core Philosophy -->
+      <section class="section" id="core-philosophy">
+        <div class="section-eyebrow">
+          <div class="section-icon">◎</div>
+          <span class="section-tag">Foundation</span>
+        </div>
+        <h2 class="section-title">Core Philosophy</h2>
+        <div class="section-body">
+          <p>The entire book rests on a single, elegant insight: <strong>a man's attractiveness is inversely
+              proportional to how needy he is</strong>. Everything else flows from this. Attraction isn't a mystery.
+            It's the natural result of a man who is grounded in his own identity, comfortable with rejection, and
+            genuinely unconcerned with seeking the approval of others.</p>
+          <p>Manson argues that western men in the modern era have grown up without a clear model of healthy
+            masculinity. Not the old archetypes of strength and silence, and not the modern confusion of performance and
+            people-pleasing. What's needed is something rarer: a man who is emotionally honest, who pursues what he
+            wants openly, who can be rejected without crumbling, and who respects both himself and the women he meets.
+          </p>
+          <p>The book is built on three interconnected pillars that Manson calls the <strong>Three
+              Fundamentals</strong>: creating an attractive lifestyle, overcoming anxiety and taking action, and
+            communicating honestly and with real emotional depth. These aren't separate tactics — they are expressions
+            of the same underlying shift in identity.</p>
+        </div>
+
+        <div class="three-col">
+          <div class="three-col-card">
+            <div class="three-col-icon">🏗</div>
+            <div class="three-col-title">Honest Living</div>
+            <div class="three-col-desc">Build a life you're genuinely proud of. Your lifestyle is your most powerful
+              signal.</div>
+          </div>
+          <div class="three-col-card">
+            <div class="three-col-icon">⚡</div>
+            <div class="three-col-title">Honest Action</div>
+            <div class="three-col-desc">Overcome fear and take real initiative. Courage, not cleverness, is what moves
+              things forward.</div>
+          </div>
+          <div class="three-col-card">
+            <div class="three-col-icon">💬</div>
+            <div class="three-col-title">Honest Expression</div>
+            <div class="three-col-desc">Say what you mean. Flirt openly. Communicate without hiding behind scripts or
+              strategies.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Non-Neediness -->
+      <section class="section" id="non-neediness">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">01</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part I — Reality</div>
+            <div class="chapter-strip-title">Non-Neediness</div>
+            <div class="chapter-strip-desc">The root of all attractiveness</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p><strong>Neediness</strong> is when a man places a higher priority on others' perceptions of him than on his
+            own perception of himself. A needy man's actions and words are primarily motivated by winning approval.
+            <strong>Non-neediness</strong> is the opposite: your actions are motivated by your own values and desires,
+            not by what anyone else will think of them.</p>
+          <p>This is not about being cold or indifferent to others. It's about where you place the yardstick of
+            self-evaluation. A needy man lives or dies by the reactions he gets. A non-needy man is genuinely interested
+            in others but is ultimately more invested in himself than in any particular person's opinion of him.</p>
+          <p>Neediness infiltrates everything — the way you stand, how you hold eye contact, whether you laugh at a joke
+            that isn't funny just to seem agreeable, whether you bite your tongue when someone disrespects you. Women
+            don't consciously calculate this. They sense it intuitively, the way you'd notice an unpleasant smell before
+            you could name it.</p>
+        </div>
+
+        <div class="callout callout-blue">
+          <div class="callout-icon">💡</div>
+          <div class="callout-content">
+            <div class="callout-label">The Core Inversion</div>
+            <div class="callout-text">Instead of asking "Will she like me?" ask "Do I like her?" Instead of trying to
+              impress her, ask yourself if she impresses you. This isn't arrogance — it's having genuine standards for
+              your own life.</div>
+          </div>
+        </div>
+
+        <div class="section-body">
+          <p>Manson distinguishes three types of men: <strong>Needy men</strong>, who define themselves entirely by
+            others' approval; <strong>Non-needy men</strong>, who respect both themselves and the women they meet; and
+            <strong>Narcissistic men</strong>, who overcompensate by caring only about themselves. The narcissist looks
+            confident but is still deeply needy — he just gets his validation through domination rather than pleasing.
+            Both extremes produce dysfunctional relationships. The goal is the middle: genuine self-investment with
+            genuine care for others.</p>
+        </div>
+
+        <div class="comparison">
+          <div class="comparison-card bad">
+            <div class="comparison-label">Needy Man</div>
+            <ul class="comparison-items">
+              <li>Rearranges his life for her approval</li>
+              <li>Agrees with everything she says</li>
+              <li>Tolerates disrespect to avoid conflict</li>
+              <li>Devastated by every rejection</li>
+              <li>His identity depends on her interest</li>
+            </ul>
+          </div>
+          <div class="comparison-card good">
+            <div class="comparison-label">Non-Needy Man</div>
+            <ul class="comparison-items">
+              <li>Has a full life she might join</li>
+              <li>Says what he actually thinks</li>
+              <li>Sets clear, respectful boundaries</li>
+              <li>Accepts rejection without drama</li>
+              <li>His identity is his own</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"The only permanent way to attract and date more women and more attractive women is to
+            become more attractive yourself. And the way a man becomes more attractive himself is by investing in
+            himself, in becoming less needy."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Vulnerability -->
+      <section class="section" id="vulnerability">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">02</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part I — Reality</div>
+            <div class="chapter-strip-title">The Power of Vulnerability</div>
+            <div class="chapter-strip-desc">Courage disguised as openness</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>Most men hear "be vulnerable" and picture begging for acceptance or crying in public. That's not
+            vulnerability — that's surrender. Real vulnerability is something entirely different: it's the willingness
+            to act from your true self even when the outcome is uncertain.</p>
+          <p>Approaching a woman you find attractive is vulnerable. Saying an opinion that might offend someone is
+            vulnerable. Telling a woman that you like her, directly, is vulnerable. Admitting you're nervous is
+            vulnerable. <strong>Vulnerability is courage expressed outward</strong> — it's the decision to put yourself
+            on the line rather than hide behind performance.</p>
+          <p>From an evolutionary standpoint, a man who is unfazed by the reactions of others signals high status. In a
+            tribal world, the man who behaved based on his own values — who admitted mistakes without shame and stood
+            firm without being aggressive — was the dependable leader. Women have been selecting for this behavioral
+            signature for hundreds of thousands of years.</p>
+        </div>
+
+        <div class="callout callout-gray">
+          <div class="callout-icon">⚠️</div>
+          <div class="callout-content">
+            <div class="callout-label">Important Distinction</div>
+            <div class="callout-text">Vulnerability is not a technique. If you share something personal hoping it will
+              "work," that's just another form of performance — and women will sense it. Vulnerability only functions
+              when it is unconditional: you say it because it's true, not because you want a particular reaction.</div>
+          </div>
+        </div>
+
+        <div class="section-body">
+          <p>Manson introduces the concept of the <strong>"Pain Period"</strong> — the uncomfortable phase you
+            inevitably go through when opening up emotionally for the first time. Your first real expressions of
+            vulnerability will feel awkward. You'll say too much. You'll say it badly. Some women will be turned off.
+            This is not failure — it's practice. You can't skip the pain period. The only way through it is through it.
+          </p>
+          <p>Over time, as you become comfortable sharing yourself openly, something shifts. What felt embarrassing
+            becomes simply true. Your rough edges stop being sources of shame and start becoming what makes you
+            interesting. And the women who like you will like you for something real.</p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"As psychologist Robert Glover once said, 'Humans are attracted to each other's rough
+            edges.' Show your rough edges. Stop trying to be perfect."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Honesty -->
+      <section class="section" id="honesty">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">03</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part I — Reality</div>
+            <div class="chapter-strip-title">The Gift of Truth</div>
+            <div class="chapter-strip-desc">Honesty as the ultimate expression of non-neediness</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>The truth, Manson argues, is always shining through. You cannot fake vulnerability. You cannot fake
+            confidence for more than a few minutes before the cracks show. Beautiful women, in particular, have spent
+            years developing exquisitely sensitive antennae for male inauthenticity — they get hit on constantly, and
+            they've learned to spot performance immediately.</p>
+          <p>When a man approaches a woman and honestly expresses his interest — "I think you're attractive and I wanted
+            to meet you" — the sub-communication is powerful: <em>I'm comfortable with the possibility that you might
+              reject me, which means I'm comfortable with myself.</em> The act of honest expression is itself the signal
+            of non-neediness.</p>
+          <p>Compare this to the man who buys drinks for women he barely knows, lavishes them with compliments in the
+            first five minutes, and tries every indirect trick to seem cool without showing his hand. His behavior
+            broadcasts precisely what he's trying to hide: that he is desperate for her approval and terrified of
+            rejection. <strong>Honesty is the opposite of that desperation.</strong></p>
+        </div>
+
+        <div class="callout callout-dark">
+          <div class="callout-icon">🎁</div>
+          <div class="callout-content">
+            <div class="callout-label">The Litmus Test</div>
+            <div class="callout-text">Check the intention behind every action. Did you buy her a drink so she wouldn't
+              leave? Did you tell that story to impress her? If your behavior is designed to receive something, it's not
+              honesty — it's a transaction, and she will feel the difference.</div>
+          </div>
+        </div>
+
+        <div class="section-body">
+          <p>Honesty also means <strong>setting and holding your own boundaries</strong>. When a woman says something
+            you find offensive or disrespectful, a non-needy man will say so — calmly, without aggression — and let her
+            decide how to respond. He's not trying to change her behavior. He's simply communicating what he will and
+            will not accept. This directness is deeply attractive because it sub-communicates that he values himself.
+          </p>
+          <p>One of Manson's most important ideas is the concept of <strong>unconditional expression</strong>. A genuine
+            compliment is given not to get something back, but because it's true. A non-needy man compliments a woman
+            because she genuinely impresses him, not as a bargaining chip. Because this kind of honesty is rare, it
+            carries enormous weight. It is, as Manson titles the chapter, a gift of truth.</p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"When a compliment comes from a man seeking nothing in return, it's a gift of truth, a
+            piece of his vulnerability, and infinitely more powerful as a result."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Polarization -->
+      <section class="section" id="polarization">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">04</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part II — Strategy</div>
+            <div class="chapter-strip-title">Polarization</div>
+            <div class="chapter-strip-desc">Stop trying to be liked by everyone</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>Not every woman is going to be attracted to you. In fact, for most men in most situations, the majority of
+            women they encounter will not be interested — and that's completely normal. The mistake most men make is
+            treating this reality as a problem to be solved through better lines or smoother tactics. Manson reframes it
+            entirely: <strong>the goal is not to attract every woman, it's to identify which women are genuinely
+              compatible as quickly as possible.</strong></p>
+          <p>He divides all women into three categories: <strong>Receptive</strong> (already interested),
+            <strong>Neutral</strong> (undecided, waiting for a signal), and <strong>Unreceptive</strong> (unavailable or
+            uninterested for real reasons). The strategy for each is completely different.</p>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-label">Unreceptive</div>
+            <div class="card-title">Move On Quickly</div>
+            <div class="card-desc">She's not interested for real reasons. Trying to convince her only signals
+              desperation. Spot her fast, accept it gracefully, and redirect your energy.</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Neutral</div>
+            <div class="card-title">Polarize Her</div>
+            <div class="card-desc">She's undecided. Express yourself openly. Be bold enough to make her feel something —
+              she'll either become Receptive or reveal herself as Unreceptive. Both are good outcomes.</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Receptive</div>
+            <div class="card-title">Escalate Directly</div>
+            <div class="card-desc">She's interested. Stop overthinking and move things forward. Ask her out. Make a
+              move. The biggest mistake here is hesitation.</div>
+          </div>
+        </div>
+
+        <div class="section-body">
+          <p>The "Nice Guy" problem, Manson explains, is that he refuses to polarize. He keeps every interaction safe
+            and pleasant, hoping that neutrality will eventually become attraction. It never does. Neutral women who are
+            never polarized drift toward Unreceptive. The Friend Zone is the inevitable result of a man who never made
+            his intentions clear.</p>
+          <p>Conversely, expressing your real self — your opinions, your humor, your desires, even your awkward moments
+            — forces women to make a decision about you. Some will become enthusiastically interested. Others will be
+            turned off. <strong>Both outcomes are information, and information is valuable.</strong> The man who
+            polarizes is a man who moves forward. The man who doesn't remains stuck.</p>
+        </div>
+
+        <div class="callout callout-blue">
+          <div class="callout-icon">↔️</div>
+          <div class="callout-content">
+            <div class="callout-label">The Friend Zone Explained</div>
+            <div class="callout-text">It forms when a man meets a woman, hides his attraction to avoid rejection, and
+              slowly gets slotted into the "friend" category. Once there, escaping is almost impossible — not because of
+              anything she did, but because waiting months to reveal interest signals an almost incomprehensible level
+              of neediness and low self-worth.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Rejection -->
+      <section class="section" id="rejection">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">05</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part II — Strategy</div>
+            <div class="chapter-strip-title">Rejection & Success</div>
+            <div class="chapter-strip-desc">Why being turned down is actually a feature</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>One of the most liberating ideas in the entire book is Manson's reframing of rejection. Most men treat
+            rejection as evidence that something is wrong with them — a wound to be avoided at all costs. Manson treats
+            it as useful information: <strong>rejection is a filter that separates women who would be good for you from
+              those who wouldn't.</strong></p>
+          <p>If a woman rejects you because of your height, your job, or your personality, she's doing you a favor.
+            She's telling you that she wouldn't have made you happy anyway. Why would you want to be with someone who
+            doesn't appreciate what you genuinely are? The answer, of course, is neediness — the desperate need to be
+            liked by everyone, regardless of compatibility.</p>
+          <p>Manson introduces the "Fuck Yes or No" principle: the only relationships worth being in are ones where both
+            people are genuinely enthusiastic. If she isn't a "Fuck Yes," she's a No — and chasing a No is a waste of
+            energy that could go toward meeting someone who is a Yes.</p>
+          <p>When a man truly internalizes this, rejection loses its terror. He approaches with the genuine attitude
+            that he's just finding out whether there's a connection — not begging to be selected. <strong>This shift in
+              attitude is itself attractive.</strong> Women can sense when a man is genuinely unbothered by the
+            possibility of rejection, and that groundedness reads as confidence.</p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"Rejection exists for a reason — it's a means to keep people apart who are not good
+            for each other."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Three Fundamentals -->
+      <section class="section" id="three-fundamentals">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">06</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part II — Strategy</div>
+            <div class="chapter-strip-title">The Three Fundamentals</div>
+            <div class="chapter-strip-desc">The complete framework for becoming more attractive</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>Manson frames his entire strategy around three fundamentals that reinforce each other. They're not separate
+            tips — they are interconnected expressions of the same identity-level shift. Work on one and you indirectly
+            benefit the others.</p>
+        </div>
+
+        <div class="takeaway-list">
+          <div class="takeaway-item">
+            <div class="takeaway-num">1</div>
+            <div class="takeaway-text"><strong>Create an Attractive Lifestyle.</strong> Build a life you're genuinely
+              proud of — one with purpose, interesting friendships, passion, and health. Your lifestyle is not just a
+              backdrop; it's the most powerful thing you can demonstrate to a woman. A man with a rich life isn't
+              desperate because he already has things he loves.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">2</div>
+            <div class="takeaway-text"><strong>Overcome Anxiety and Become a Man of Action.</strong> In almost every
+              culture, men are expected to initiate. A man who is paralyzed by fear of rejection will never get far.
+              This doesn't mean forcing yourself to be reckless — it means gradually expanding your comfort zone through
+              deliberate action and accepting discomfort as the price of growth.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">3</div>
+            <div class="takeaway-text"><strong>Communicate with Honesty and Depth.</strong> Master the mechanics of
+              honest communication: flirting, expressing interest directly, building real emotional connection, and
+              navigating physical escalation from a place of genuine desire rather than anxiety or manipulation.</div>
+          </div>
+        </div>
+
+        <div class="section-body">
+          <p>Crucially, Manson frames these as long-term character development — not short-term hacks. You're not
+            learning a technique; you're becoming someone. The process is slow but the results are compounding. A man
+            who genuinely works on all three of these areas becomes not just better with women, but better at life in
+            general.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Lifestyle -->
+      <section class="section" id="lifestyle">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">07</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part III — Honest Living</div>
+            <div class="chapter-strip-title">Lifestyle & Demographics</div>
+            <div class="chapter-strip-desc">Your environment shapes your results</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>Manson devotes significant attention to the concept of <strong>demographics</strong>: the idea that where
+            you spend your time determines what kinds of people you meet. A 40-year-old executive at professional
+            conferences will encounter a completely different pool of women — with different receptivity levels — than
+            that same man at a college bar. Context matters enormously.</p>
+          <p>The takeaway is not to optimize for fishing in the most favorable waters, but to build a life that
+            naturally draws you into communities of people you genuinely connect with. If you love music, play music
+            with people. If you love hiking, join hiking groups. If you care about ideas, go to the kinds of places
+            where ideas are discussed. The people you meet this way will already share your values — which is the most
+            powerful filter of all.</p>
+          <p>Lifestyle and presentation are also addressed practically: dress well enough to show you respect yourself,
+            stay in good physical shape because it signals health and self-discipline, and cultivate interests deep
+            enough that you can talk about them with genuine enthusiasm. Not to impress anyone — but because a man who
+            has invested in himself is simply more interesting to be around.</p>
+        </div>
+
+        <div class="callout callout-gray">
+          <div class="callout-icon">🗺</div>
+          <div class="callout-content">
+            <div class="callout-label">The Demographics Principle</div>
+            <div class="callout-text">You cannot override demographic mismatch with better technique. A mismatch in age,
+              values, lifestyle, or context will override attraction every time. The solution is not to try harder —
+              it's to position yourself in places where compatible women naturally appear.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Anxiety -->
+      <section class="section" id="anxiety">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">08</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part IV — Honest Action</div>
+            <div class="chapter-strip-title">Overcoming Anxiety</div>
+            <div class="chapter-strip-desc">Stories, shame, and the path through fear</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>Manson frames anxiety around women not as a personality flaw but as a reflection of unresolved emotional
+            baggage — stories we tell ourselves about what our failures mean. "I'm not attractive enough." "She's out of
+            my league." "If she rejects me, it proves I'm worthless." These stories are rarely examined, and yet they
+            run constantly in the background, shaping every interaction.</p>
+          <p>The first step is becoming aware of your own stories. What do you believe about yourself and your worth
+            that is causing you to hold back? Where did those beliefs come from? Manson encourages honest
+            self-examination — whether on your own, with trusted friends, or with a therapist — to surface and examine
+            these hidden beliefs.</p>
+          <p>Once you've identified the stories, the only real remedy is action. Not preparation for action. Not reading
+            more books about how to act. <strong>Action itself.</strong> Approach the woman. Say the thing. Go in for
+            the kiss. Get rejected. Then do it again. Each instance of action, regardless of outcome, chips away at the
+            fear until it no longer controls you.</p>
+        </div>
+
+        <div class="callout callout-blue">
+          <div class="callout-icon">🧭</div>
+          <div class="callout-content">
+            <div class="callout-label">The Stories Framework</div>
+            <div class="callout-text">Your anxieties are maintained by the stories you tell yourself about what
+              rejection, failure, or discomfort means. Examine those stories. Most of them are inherited rather than
+              reasoned. Replace them with accurate beliefs built from real experience — which you can only get by
+              acting.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Communication -->
+      <section class="section" id="communication">
+        <div class="chapter-strip">
+          <div class="chapter-strip-num">09</div>
+          <div class="chapter-strip-content">
+            <div class="chapter-strip-label">Part V — Honest Communication</div>
+            <div class="chapter-strip-title">Communication, Flirting & Intimacy</div>
+            <div class="chapter-strip-desc">The mechanics of authentic connection</div>
+          </div>
+        </div>
+        <div class="section-body">
+          <p>The final section of the book gets practical about communication. Manson's central principle here extends
+            the non-neediness framework into conversation: <strong>everything you say should be driven by genuine
+              interest and expression, not by strategy.</strong> The intention behind words matters infinitely more than
+            the words themselves.</p>
+          <p>On flirting, Manson encourages directness over cleverness. Real flirting is the expression of genuine
+            sexual interest through playful behavior — teasing, making eye contact that lingers, expressing attraction
+            without hedging it. It is not a performance designed to make her like you. It is the authentic projection of
+            how you actually feel.</p>
+          <p>For conversations, he recommends leading with genuine curiosity: ask questions you actually want answered.
+            Share things you actually find interesting. Don't stick to safe topics designed to please her — talk about
+            what matters to you and let her decide if she's interested. The men who have the best conversations aren't
+            the most skilled talkers; they're the most genuinely present.</p>
+          <p>On physicality and escalation, Manson is direct: if you're attracted to a woman, show it physically — with
+            appropriate touch, with movement toward her, with a willingness to initiate the kiss. The man who is
+            paralyzed waiting for permission will almost never get it. Women generally respond to confident escalation,
+            as long as it is genuine and attentive to their responses.</p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"Seduction is the interplay of emotions. Your movement, or lack of movement, reflects
+            and alters emotions, not the words. Words are the side effect. Sex is the side effect. The game is emotions,
+            emotions through movement."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+
+        <div class="section-body">
+          <p>Throughout this section, Manson returns to a key distinction: <strong>your intention</strong>. Are you
+            touching her to escalate because you want to connect with her? Or are you touching her because you read in a
+            book that it's a technique? Are you listening to what she says because she genuinely interests you? Or are
+            you waiting for her to finish talking so you can deploy the next line?</p>
+          <p>The former is attractive. The latter is performance. Women feel the difference.</p>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Key Takeaways -->
+      <section class="section" id="takeaways">
+        <div class="section-eyebrow">
+          <div class="section-icon">★</div>
+          <span class="section-tag">Summary</span>
+        </div>
+        <h2 class="section-title">Key Takeaways</h2>
+        <div class="section-body">
+          <p>These are the essential ideas from <em>Models</em> — not isolated tips, but an interconnected philosophy of
+            self-development and honest engagement.</p>
+        </div>
+
+        <div class="takeaway-list">
+          <div class="takeaway-item">
+            <div class="takeaway-num">1</div>
+            <div class="takeaway-text"><strong>Non-neediness is the foundation of attraction.</strong> Everything else
+              is downstream of this. Reduce your dependence on external validation and you become more attractive in
+              every dimension — how you speak, move, hold yourself, and respond to setbacks.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">2</div>
+            <div class="takeaway-text"><strong>Performance never works long-term.</strong> Lines, scripts, and
+              psychological tricks might get a few short-term results, but they require you to maintain a mask
+              indefinitely. The mask cracks. The real you emerges. And if the real you is needy and insecure, she will
+              notice.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">3</div>
+            <div class="takeaway-text"><strong>Vulnerability is strength, not weakness.</strong> The willingness to
+              express your real feelings, opinions, and desires — even knowing you might be rejected — signals
+              confidence more powerfully than any clever line ever could.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">4</div>
+            <div class="takeaway-text"><strong>Intentions speak louder than words.</strong> The motivation behind what
+              you say and do is always broadcasting itself. You cannot fake genuine interest. You cannot fake comfort
+              with rejection. Women sense this at a level beneath conscious awareness.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">5</div>
+            <div class="takeaway-text"><strong>Polarize rather than placate.</strong> Express yourself authentically and
+              let women self-select. Some will be turned off — good. Others will become very interested. Either way,
+              you've gotten a real answer faster than any safe strategy would have provided.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">6</div>
+            <div class="takeaway-text"><strong>Rejection is a filter, not a verdict.</strong> A woman who rejects you
+              for real reasons is telling you something useful: that the relationship wouldn't have worked anyway. The
+              goal is not to be liked by every woman — it's to find ones who genuinely click with who you actually are.
+            </div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">7</div>
+            <div class="takeaway-text"><strong>Invest in yourself, not her approval.</strong> Build an interesting life.
+              Develop genuine passions. Cultivate strong friendships. Take care of your body and mind. The man who is
+              genuinely fulfilled doesn't need any particular woman's validation — and that self-sufficiency is deeply
+              attractive.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">8</div>
+            <div class="takeaway-text"><strong>Honesty is unconditional.</strong> A compliment given to get something
+              back is a transaction, not a compliment. A true gift of appreciation asks nothing in return. When you
+              speak from this place — saying what's true because it's true — your words carry real weight.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">9</div>
+            <div class="takeaway-text"><strong>Context and demographics matter.</strong> Position yourself where
+              compatible women naturally appear — in communities centered on things you actually love. This is more
+              efficient and more sustainable than any social tactic.</div>
+          </div>
+          <div class="takeaway-item">
+            <div class="takeaway-num">10</div>
+            <div class="takeaway-text"><strong>Change is internal before it's external.</strong> Your words, your
+              appearance, your social ease — these are symptoms of something deeper. Work at the level of beliefs,
+              values, and emotional honesty, and your behavior will follow naturally.</div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- Final Conclusion -->
+      <section class="section" id="conclusion">
+        <div class="section-eyebrow">
+          <div class="section-icon">◉</div>
+          <span class="section-tag">Closing</span>
+        </div>
+        <h2 class="section-title">Final Conclusion</h2>
+
+        <div class="conclusion-banner">
+          <h3>A Book About Becoming, Not Performing</h3>
+          <p><em>Models</em> succeeds because it treats attraction not as a puzzle to be solved but as a natural
+            consequence of a certain kind of man — one who has done the genuine work of understanding himself, accepting
+            himself, and expressing himself without hiding.</p>
+          <p>The discomfort of this is intentional. Manson is not offering shortcuts. He's offering the only path that
+            leads somewhere worth going: relationships built on who you actually are, with women who are actually
+            interested in that person.</p>
+          <p>The book leaves you with a simple question, harder than it appears: Who are you, and are you willing to
+            show that honestly to the world? Answer that, and the tactics take care of themselves.</p>
+        </div>
+
+        <div class="section-body" style="margin-top:28px;">
+          <p>Mark Manson went on to write <em>The Subtle Art of Not Giving a F*ck</em>, a global bestseller that
+            extended many of these same ideas into a broader philosophy of life. But for those interested in the
+            specific territory of attraction, relationships, and masculine identity, <em>Models</em> remains his most
+            complete and nuanced work — a book about how the interior life of a man shapes every exterior interaction he
+            has.</p>
+          <p>If there is one sentence to take away from the entire book, Manson himself provides it in the introduction.
+            All the complexity, all the strategy, all the philosophy reduces to this: <strong>become a man you respect,
+              and share that man honestly with the world.</strong></p>
+        </div>
+
+        <div class="quote-block">
+          <div class="quote-text">"Because, ironically, that is what women want you to be: a man who wants to be who he
+            wants to be."</div>
+          <div class="quote-source">— Mark Manson, Models</div>
+        </div>
+      </section>
+
+    </div><!-- /content-wrapper -->
+  </main>
+
+  <script>
+    /* ─── Sidebar toggle ─── */
+    function toggleSidebar() {
+      const sb = document.getElementById('sidebar');
+      const hb = document.getElementById('hamburger');
+      const ov = document.getElementById('overlay');
+      const open = sb.classList.toggle('open');
+      hb.classList.toggle('open', open);
+      ov.classList.toggle('visible', open);
+    }
+
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('overlay').classList.remove('visible');
+    }
+
+    function closeSidebarMobile() {
+      if (window.innerWidth < 900) closeSidebar();
+    }
+
+    /* ─── Active nav on scroll ─── */
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-item');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navItems.forEach(item => {
+            item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, {
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    });
+
+    sections.forEach(s => observer.observe(s));
+
+    /* ─── Smooth scroll for hash links ─── */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
